@@ -2,6 +2,10 @@ import collections.abc
 import typing
 
 
+class SeparableTypeError(Exception):
+    """The object is not separable."""
+
+
 T = typing.TypeVar('T')
 
 
