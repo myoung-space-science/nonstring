@@ -44,6 +44,12 @@ def unique(*args, separable=False):
         args[0] if (separable and len(args) == 1)
         else args
     )
+    try:
+        iter(items)
+    except TypeError as err:
+        raise SeparableTypeError(
+            f"Cannot separate object of type {items.__class__.__qualname__!r}"
+        ) from err
     collection = []
     for item in items:
         if item not in collection:
