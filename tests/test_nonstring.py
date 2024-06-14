@@ -15,23 +15,28 @@ def test_unique():
         ('a', 'b', 'a'): ['a', 'b'],
         ('a', 'b', 'a', 'c'): ['a', 'b', 'c'],
         ('a', 'b', 'b', 'a', 'c'): ['a', 'b', 'c'],
-        (('a', 'b', 'b', 'a', 'c'),): ['a', 'b', 'c'],
-        ((1,),): [1],
-        ((1, 2),): [1, 2],
         (1, 2): [1, 2],
         (('a', 'a'), ('b', 'b')): [('a', 'a'), ('b', 'b')],
     }
     for items, expected in cases.items():
         assert list(nonstring.unique(*items)) == expected
+    assert nonstring.unique(1) == [1]
+
+
+def test_unique_separable():
+    """Test use of the `separable` keyword argument to `unique`."""
+    cases = {
+        'aabac': ['a', 'b', 'c'],
+        ('a', 'b', 'a'): ['a', 'b'],
+        ('a', 'b', 'b', 'a', 'c'): ['a', 'b', 'c'],
+        (1,): [1],
+        (1, 2): [1, 2],
+    }
+    for arg, iftrue in cases.items():
+        assert nonstring.unique(arg) == [arg]
+        assert nonstring.unique(arg, separable=True) == iftrue
     with pytest.raises(TypeError):
-        nonstring.unique(1)
-
-
-def test_unique_strict():
-    """Test use of the `strict` keyword argument to `unique`."""
-    result = nonstring.unique(['a', 'b', 'a'], strict=True)
-    expected = [['a', 'b', 'a']]
-    assert result == expected
+        nonstring.unique(1, separable=True)
 
 
 def test_unwrap():
