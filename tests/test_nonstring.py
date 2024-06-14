@@ -56,10 +56,10 @@ def test_unwrap():
         assert nonstring.unwrap(case, newtype=tuple) == (3, 4)
 
 
-@pytest.mark.xfail
 def test_wrap():
     """Test the function that wraps an object in a list."""
-    assert False
+    assert nonstring.wrap(1) == [1]
+    assert nonstring.wrap([1]) == [1]
 
 
 def test_isseparable():
