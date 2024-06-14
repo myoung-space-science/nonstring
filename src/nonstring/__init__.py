@@ -84,65 +84,6 @@ def unwrap(obj, newtype=None):
     Any
         The element enclosed in multiple instances of `list` or `tuple`, or a
         (possibly empty) `list` or `tuple`.
-
-    Examples
-    --------
-    Unwrap numbers enclosed in increasingly deeper lists:
-
-    >>> cases = [[1], [[2]], [[[3]]], [[[[4]]]]]
-    >>> for case in cases:
-    ...     print(unwrap(case))
-    ... 
-    1
-    2
-    3
-    4
-
-    It preserves numbers and strings that are already unwrapped:
-
-    >>> unwrap(42)
-    42
-    >>> unwrap('string')
-    'string'
-
-    Passing a type to `newtype` ensures a result of that type:
-
-    >>> unwrap(42, newtype=tuple)
-    (42,)
-    >>> unwrap(42, newtype=list)
-    [42]
-    >>> unwrap([42], newtype=list)
-    [42]
-    >>> unwrap(([(42,)],), newtype=list)
-    [42]
-
-    It works with multiple wrapped elements:
-
-    >>> unwrap([1, 2])
-    [1, 2]
-    >>> unwrap([[1, 2]])
-    [1, 2]
-    >>> unwrap(['one', 'two'])
-    ['one', 'two']
-    >>> unwrap([['one', 'two']])
-    ['one', 'two']
-
-    It stops at an empty `list` or `tuple`:
-
-    >>> unwrap([])
-    []
-    >>> unwrap(())
-    ()
-    >>> unwrap(list())
-    []
-    >>> unwrap(tuple())
-    ()
-    >>> unwrap([[]])
-    []
-    >>> unwrap([()])
-    ()
-    >>> unwrap([], newtype=tuple)
-    ()
     """
     seed = [obj]
     wrapped = (list, tuple)
