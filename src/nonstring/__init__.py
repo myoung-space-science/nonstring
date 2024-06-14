@@ -9,20 +9,20 @@ T = typing.TypeVar('T')
 def unique(
     arg: typing.List[T],
     *,
-    strict: bool=False,
+    separable: bool=False,
 ) -> typing.List[T]: ...
 
 @typing.overload
 def unique(
     arg: T,
     *,
-    strict: typing.Literal[True],
+    separable: typing.Literal[True],
 ) -> typing.List[T]: ...
 
 @typing.overload
-def unique(*args: T, strict: bool=False) -> typing.List[T]: ...
+def unique(*args: T, separable: bool=False) -> typing.List[T]: ...
 
-def unique(*args, strict=False):
+def unique(*args, separable=False):
     """Remove repeated items from `args` while preserving order.
     
     Parameters
@@ -30,14 +30,14 @@ def unique(*args, strict=False):
     *args
         The items to compare.
 
-    strict : bool, default=false
-        By default, if `args` comprises a single iterable object, this function
-        will extract that object under the assumption that the caller wants to
-        remove repeated items from the given iterable object. If `strict` is
-        true, this function will operate on the input as given.
+    separable : bool, default=false
+        If false, this function will operate on the object as given. If true,
+        and `args` comprises a single iterable object, this function will
+        extract that object under the assumption that the caller wants to remove
+        repeated items from the given iterable object.
     """
     items = (
-        args[0] if (not strict and len(args) == 1)
+        args[0] if (separable and len(args) == 1)
         else args
     )
     collection = []
