@@ -35,7 +35,7 @@ def test_unique_separable():
     for arg, iftrue in cases.items():
         assert nonstring.unique(arg) == [arg]
         assert nonstring.unique(arg, separable=True) == iftrue
-    with pytest.raises(TypeError):
+    with pytest.raises(nonstring.SeparableTypeError):
         nonstring.unique(1, separable=True)
 
 
