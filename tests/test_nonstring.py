@@ -72,3 +72,41 @@ def test_isseparable():
         assert not nonstring.isseparable(arg)
 
 
+def test_merge():
+    """Test the order-preserving merge function."""
+    valid = [
+        [['a', 'b'], ['x', 'y'], ['a', 'b', 'x', 'y']],
+        [['x', 'y', 'z'], ['x', 'y', 'z'], ['x', 'y', 'z']],
+        [['x', 'y', 'z'], ['x', 'y'], ['x', 'y', 'z']],
+        [['x', 'y', 'z'], ['y', 'z'], ['x', 'y', 'z']],
+        [['x', 'y', 'z'], ['x', 'z'], ['x', 'y', 'z']],
+        [['y', 'z'], ['x', 'y', 'z'], ['x', 'y', 'z']],
+        [['y', 'z'], ['z', 'w'], ['y', 'z', 'w']],
+        [['x', 'y', 'z'], ['y', 'z', 'w'], ['x', 'y', 'z', 'w']],
+        [
+            ['x', 'y', 'z', 'w', 'r'],
+            ['a', 'x', 'b', 'c', 'y', 'w'],
+            ['a', 'x', 'b', 'c', 'y', 'z', 'w', 'r'],
+        ],
+        [
+            ['a', 'x', 'b', 't', 'y', 'c', 'z'],
+            ['a', 'q', 'x', 'q', 'p', 'c', 'r'],
+            ['a', 'q', 'x', 'b', 't', 'y', 'q', 'p', 'c', 'z', 'r'],
+        ],
+        [
+            ['a', 'q', 'x', 'q', 'p', 'c', 'r'],
+            ['a', 'x', 'b', 't', 'y', 'c', 'z'],
+            ['a', 'q', 'x', 'q', 'p', 'b', 't', 'y', 'c', 'r', 'z'],
+        ],
+    ]
+    for these, those, expected in valid:
+        assert nonstring.merge(these, those) == expected
+    invalid = [
+        [['a', 'b', 'c'], ['a', 'c', 'b']],
+        [['a', 'c', 'b'], ['a', 'b', 'c']],
+    ]
+    for these, those in invalid:
+        with pytest.raises(nonstring.MergeError):
+            nonstring.merge(these, those)
+
+
