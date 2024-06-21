@@ -196,7 +196,14 @@ class MergeError(Exception):
     """An error occurred while merging iterable objects."""
 
 
-def merge(these: typing.Iterable, those: typing.Iterable):
+X = typing.TypeVar('X')
+Y = typing.TypeVar('Y')
+
+
+def merge(
+    these: typing.Iterable[X],
+    those: typing.Iterable[Y],
+) -> typing.List[typing.Union[X, Y]]:
     """Merge two iterable containers while respecting order.
     
     Parameters
@@ -232,8 +239,8 @@ def merge(these: typing.Iterable, those: typing.Iterable):
             ib = y.index(v)
             s.extend(x[za:ia] + y[zb:ib])
             s.append(v)
-            za = ia+1
-            zb = ib+1
+            za = ia + 1
+            zb = ib + 1
         s.extend(x[za:] + y[zb:])
         return s
     x.extend(y)
