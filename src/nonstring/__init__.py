@@ -247,3 +247,36 @@ def merge(
     return x
 
 
+def join(x: typing.Iterable[T], c: str='and', /, quoted: bool=False):
+    """Join objects as strings, with a conjunction before the final item.
+    
+    Parameters
+    ----------
+    x : iterable of `~T`
+        The objects to join. This function will convert `x` into a `list` and
+        will convert each member of `x` into its string representation.
+    
+    c : string
+        The conjunction to insert before the final item, if `x` contains more
+        than one string.
+
+    quoted : bool, default=False
+        If true, quote each string in `x`.
+
+    Notes
+    -----
+    - This function will insert the conjunction as given. It is the user's
+      responsibility to pass an appropriate argument.
+    - This function implements the `quoted` option by calling `repr` on each
+      string in `x`.
+    """
+    f = repr if quoted else str
+    y = list(x)
+    if len(y) == 1:
+        return f(y[0])
+    if len(y) == 2:
+        return f"{f(y[0])} {c} {f(y[1])}"
+    substr = ', '.join(f(i) for i in y[:-1])
+    return f"{substr}, {c} {f(y[-1])}"
+
+
