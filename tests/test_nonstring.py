@@ -115,3 +115,13 @@ def test_merge():
             nonstring.merge(these, those)
 
 
+def test_join():
+    """Test the custom string-joining function."""
+    assert nonstring.join(['a']) == 'a'
+    assert nonstring.join(['a', 'b']) == 'a and b'
+    assert nonstring.join(['a', 'b'], 'or') == 'a or b'
+    assert nonstring.join(['a', 'b', 'c']) == 'a, b, and c'
+    assert nonstring.join(['a', 'b', 'c'], 'or') == 'a, b, or c'
+    assert nonstring.join(['a', 'b', 'c'], quoted=True) == "'a', 'b', and 'c'"
+
+
