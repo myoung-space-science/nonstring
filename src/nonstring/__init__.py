@@ -192,3 +192,51 @@ def isseparable(x, /):
     return not isinstance(x, (str, bytes))
 
 
+class MergeError(Exception):
+    """An error occurred while merging iterable objects."""
+
+
+def merge(these: typing.Iterable, those: typing.Iterable):
+    """Merge two iterable containers while respecting order.
+    
+    Parameters
+    ----------
+    these, those
+        The iterable containers to merge.
+
+    Returns
+    -------
+    `list`
+        A list containing the unique members of the arguments, in the order in
+        which they would appear after expanding both arguments.
+
+    Raises
+    ------
+    `ValueError`
+        The arguments contain repeated items in different order.
+    """
+    x = list(these)
+    y = list(those)
+    repeated = set(x) & set(y)
+    if repeated:
+        ab = [i for i in x if i in y]
+        ba = [i for i in y if i in x]
+        if ab != ba:
+            raise MergeError(
+                "Repeated entries must appear in the same order"
+            ) from None
+        s = []
+        za = zb = 0
+        for v in ab:
+            ia = x.index(v)
+            ib = y.index(v)
+            s.extend(x[za:ia] + y[zb:ib])
+            s.append(v)
+            za = ia+1
+            zb = ib+1
+        s.extend(x[za:] + y[zb:])
+        return s
+    x.extend(y)
+    return x
+
+
