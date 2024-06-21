@@ -98,6 +98,11 @@ def test_merge():
             ['a', 'x', 'b', 't', 'y', 'c', 'z'],
             ['a', 'q', 'x', 'q', 'p', 'b', 't', 'y', 'c', 'r', 'z'],
         ],
+        ['abc', 'abd', ['abc', 'abd']],
+        [['abc'], 'abd', ['abc', 'abd']],
+        ['abc', ['abd'], ['abc', 'abd']],
+        [['abc'], ['abd'], ['abc', 'abd']],
+        [list('abc'), list('abd'), ['a', 'b', 'c', 'd']],
     ]
     for these, those, expected in valid:
         assert nonstring.merge(these, those) == expected
