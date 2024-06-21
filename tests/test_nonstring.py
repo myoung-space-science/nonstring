@@ -121,6 +121,7 @@ def test_join():
     assert nonstring.join(['a', 'b']) == 'a and b'
     assert nonstring.join(['a', 'b'], 'or') == 'a or b'
     assert nonstring.join(['a', 'b', 'c']) == 'a, b, and c'
+    assert nonstring.join([1, 2, 3]) == '1, 2, and 3'
     assert nonstring.join(['a', 'b', 'c'], 'or') == 'a, b, or c'
     assert nonstring.join(['a', 'b', 'c'], quoted=True) == "'a', 'b', and 'c'"
 
