@@ -222,8 +222,8 @@ def merge(
     `ValueError`
         The arguments contain repeated items in different order.
     """
-    x = list(these)
-    y = list(those)
+    x = wrap(these)
+    y = wrap(those)
     repeated = set(x) & set(y)
     if repeated:
         ab = [i for i in x if i in y]
