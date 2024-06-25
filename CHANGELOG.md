@@ -2,6 +2,13 @@
 
 ## NEXT
 
+## v0.2.0 (2024-06-25)
+
+- Add `merge` and `MergeError`
+- Add `join`
+- Add `size`
+- Add tests for new features
+
 ## v0.1.0 (2024-06-14)
 
 Hello world! The code in this package was originally developed as part of a
