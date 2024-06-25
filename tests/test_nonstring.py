@@ -126,3 +126,26 @@ def test_join():
     assert nonstring.join(['a', 'b', 'c'], quoted=True) == "'a', 'b', and 'c'"
 
 
+def test_size():
+    """Test the function that computes the size of a nested collection."""
+    valid = [
+        ([], 0),
+        ([1], 1),
+        ([1, 2], 2),
+        ([[1], [2]], 2),
+        ([[1, 2], [3, 4]], 4),
+        ([1, 2, 3, 4], 4),
+        ([[1, 2, 3, 4]], 4),
+    ]
+    for (x, n) in valid:
+        assert nonstring.size(x) == n
+    error = [
+        1,
+        None,
+        '1',
+        '[1]',
+    ]
+    for x in error:
+        with pytest.raises(TypeError):
+            nonstring.size(x)
+
