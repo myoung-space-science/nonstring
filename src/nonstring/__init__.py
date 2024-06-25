@@ -280,3 +280,47 @@ def join(x: typing.Iterable[T], c: str='and', /, quoted: bool=False):
     return f"{substr}, {c} {f(y[-1])}"
 
 
+def size(x, /) -> int:
+    """Compute the size of a potentially nested collection.
+    
+    Parameters
+    ----------
+    x
+        Any non-string iterable container.
+
+    Notes
+    -----
+    - The non-string restriction on `x` exists to restrict this function to
+      array-like objects (e.g., lists of lists). Such objects are considered
+      "separable".
+
+    Raises
+    ------
+    TypeError
+        `x` is not iterable or is not separable
+
+    See Also
+    --------
+    `~isseparable`
+    """
+    try:
+        iter(x)
+    except TypeError as err:
+        raise TypeError(
+            f"Cannot compute the size of {x}"
+        ) from err
+    if not isseparable(x):
+        raise TypeError(
+            f"Argument must be a separable collection, not {type(x)}"
+        ) from None
+    count = 0
+    for y in x:
+        try:
+            iter(y)
+        except TypeError:
+            count += 1
+        else:
+            count += size(y)
+    return count
+
+
