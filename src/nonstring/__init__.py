@@ -1,4 +1,5 @@
 import collections.abc
+import itertools
 import typing
 
 
@@ -322,5 +323,29 @@ def size(x, /) -> int:
         else:
             count += size(y)
     return count
+
+
+def distribute(a, b):
+    """Distribute `a` and `b` over each other.
+
+    If both `a` and `b` are separable, this function will return their Cartesian
+    product. If only `a` or `b` is separable, this function will pair the
+    non-separable argument with each element of the separable argument. If
+    neither is separable, this function will raise an error.
+
+    See Also
+    --------
+    `~isseparable`
+        Determine if an object is iterable but is not string-like.
+    """
+    a_separable = isseparable(a)
+    b_separable = isseparable(b)
+    if not (a_separable or b_separable):
+        raise TypeError("At least one argument must be whole")
+    if a_separable and b_separable:
+        return iter(itertools.product(a, b))
+    if not a_separable:
+        return iter((a, i) for i in b)
+    return iter((i, b) for i in a)
 
 
