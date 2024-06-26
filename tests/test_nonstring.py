@@ -149,3 +149,14 @@ def test_size():
         with pytest.raises(TypeError):
             nonstring.size(x)
 
+
+def test_distribute():
+    """Test the function that distributes one object over another."""
+    expected = [('a', 1), ('a', 2), ('b', 1), ('b', 2)]
+    assert list(nonstring.distribute(['a', 'b'], [1, 2])) == expected
+    expected = [('a', 1), ('a', 2)]
+    assert list(nonstring.distribute('a', [1, 2])) == expected
+    expected = [('a', 1), ('b', 1)]
+    assert list(nonstring.distribute(['a', 'b'], 1)) == expected
+
+
