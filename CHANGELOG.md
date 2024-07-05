@@ -2,6 +2,8 @@
 
 ## NEXT
 
+## v0.3.0 (2024-07-05)
+
 - Add `distribute` and `test_distribute`
 
 ## v0.2.0 (2024-06-25)
